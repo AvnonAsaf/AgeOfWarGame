@@ -45,9 +45,9 @@ def select(screen, size, mouse_pos):
     
 def load_images():
     global images
-    images['dmg1'] = pygame.image.load("picturs_troops/dmg1.jpg")
+    images['archer'] = pygame.image.load("picturs_troops/archer.png")
     images['tank1'] = pygame.image.load("picturs_troops/tank1.jpeg")
-   
+    images['attacker'] = pygame.image.load("picturs_troops/attacker.png")
     tankselect = pygame.image.load("picturs_troops/tankselect.jpeg")
     images['tankselect'] = pygame.transform.scale(tankselect, (80, 80))
 
@@ -57,8 +57,9 @@ def main():
     pygame.init()
     load_images()
     screen = pygame.display.set_mode()
-    player_tower1 = Tower("left", 300, screen)
-    player_tower2 = Tower("right", 300, screen)
+    player_tower1 = Tower("left", 300, screen, tank_img=images['tank1'], attacker_img=images['attacker'], archer_img=images['archer'])
+    player_tower2 = Tower("right", 300, screen, tank_img=images['tank1'], attacker_img=images['attacker'], archer_img=images['archer'])
+    player_tower2.add_troop('tank')
     # Load the image file
     # # Scale the image to a width of 200 pixels and a height of 100 pixels
     # scaled_image = pygame.transform.scale(tank1, (200, 100))
@@ -82,8 +83,9 @@ def main():
         # Draw the image onto the window
 
         seliction(screen, player_tower1.size) 
-        player_tower1.draw_tower_ev_hp()
-        player_tower2.draw_tower_ev_hp()
+        Tower.update(player_tower1, player_tower2)
+        player_tower1.draw()
+        player_tower2.draw()
                
                             
         pygame.display.flip()
